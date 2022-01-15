@@ -1,0 +1,4 @@
+1. Dashboard
+2. Todolist/ Scheduler
+3. Budget Manager
+4. Authentication system
