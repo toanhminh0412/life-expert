@@ -1,17 +1,37 @@
 import React from 'react';
 import {FaMoneyBillAlt} from 'react-icons/fa';
 import {BsFillCalendar3WeekFill} from 'react-icons/bs';
+import {FiLogOut} from 'react-icons/fi'
+import {auth, db} from '../App';
+import { signOut } from "firebase/auth";
+import { doc, deleteDoc} from 'firebase/firestore';
+import {useNavigate} from 'react-router-dom';
 
 function NavigationBar() {
+    const navigate = useNavigate();
+
+    const logOut = () => {
+        signOut(auth)
+        .then(async() => {
+            const currentSession = window.localStorage.getItem('session');
+            await deleteDoc(doc(db, 'sessions', currentSession))
+            window.localStorage.setItem('session', '')
+            navigate('/login');
+        })
+        .catch(error => {
+            console.log(error);
+        })
+    }
+
     return (
         <div>
-            <VerticalNav/>
-            <HorizontalNav/>
+            <VerticalNav logOut={logOut}/>
+            <HorizontalNav logOut={logOut}/>
         </div>
     )
 }
 
-function HorizontalNav() {
+function HorizontalNav({logOut}) {
     return (
         <div className='fixed bg-slate-800 h-10 md:h-12 w-full lg:hidden flex flex-row'>
             <div className='ml-4 hidden md:flex flex-col justify-center'>
@@ -23,11 +43,17 @@ function HorizontalNav() {
             <div className='ml-8 md:ml-12 h-full flex flex-col justify-center'>
                 <a href='/scheduler'><BsFillCalendar3WeekFill className='text-slate-400 hover:text-white text-xl md:text-2xl'/></a>
             </div>
+            
+            {window.localStorage.getItem('session')!==""?(
+                <div className='absolute top-3 right-4 md:right-6'>
+                <div onClick={logOut}><FiLogOut className='text-slate-400 hover:text-white text-xl md:text-2xl'/></div>
+            </div>
+            ):(<div></div>)}
         </div>
     )
 }
 
-function VerticalNav() {
+function VerticalNav({logOut}) {
     return (
         <div className='hidden lg:flex fixed flex-col h-screen w-fit bg-slate-800'>
                 <div className='border-b border-slate-600 pb-4'>
@@ -43,6 +69,11 @@ function VerticalNav() {
                         <BsFillCalendar3WeekFill className='text-white text-3xl mx-auto my-auto'/>
                     </div>
                 </a>
+
+                {window.localStorage.getItem('session')!==""?(<div className='text-center absolute bottom-10 left-12'>
+                    <FiLogOut onClick={logOut} className='text-slate-400 hover:text-white text-3xl mx-auto my-auto'/>
+                </div>):(<div></div>)}
+                
 
         </div>
     )
