@@ -3,7 +3,8 @@ import React from 'react';
 import {BrowserRouter as Router, Routes, Route } from "react-router-dom"; 
 
 import Dashboard from './components/Dashboard';
-import BudgetManager from './components/BudgetManager';
+import Budget from './components/Budget';
+import BudgetAdd from './components/BudgetAdd';
 import Scheduler from './components/Scheduler';
 import NavigationBar from './components/NavigationBar';
 import Login from './components/Login';
@@ -38,7 +39,8 @@ function App() {
         <NavigationBar />
         <Routes>
           <Route exact path='/' element={<Dashboard/>}/>
-          <Route exact path='/budget-manager' element={<BudgetManager/>}/>
+          <Route exact path='/budget-manager' element={<Budget/>}/>
+          <Route path='/budget-manager/add' element={<BudgetAdd/>}/>
           <Route exact path='/scheduler' element={<Scheduler/>}/>
           <Route path='/login' element={<Login/>}/>
           <Route path='signup' element={<Signup/>}/>

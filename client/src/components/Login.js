@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {auth, db} from '../App';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore";
@@ -17,6 +17,13 @@ function Login() {
   const typePassword = e => {
     setPassword(e.target.value);
   }
+
+  useEffect(() => {
+    const session = window.localStorage.getItem("session");
+    if (session) {
+      navigate('/');
+    }
+  }, [])
 
   const signIn = e => {
     e.preventDefault()

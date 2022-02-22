@@ -3,4 +3,4 @@
 3. Budget Manager
 4. Authentication system
 Current:
-4.1 fix login sessions for budget and Scheduler
+4.1 Add interface for income and expenses

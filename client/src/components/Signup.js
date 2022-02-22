@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {auth, db} from "../App";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { doc, setDoc } from "firebase/firestore"; 
@@ -11,6 +11,13 @@ function Signup() {
   const [password2, setPassword2] = useState("");
   const [error, setError] = useState("")
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const session = window.localStorage.getItem("session");
+    if (session) {
+      navigate('/');
+    }
+  }, [])
 
   const typeEmail = e => {
     setEmail(e.target.value)
