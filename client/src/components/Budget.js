@@ -22,6 +22,7 @@ function Budget() {
     })
     const [totalMoney, setTotalMoney] = useState(0)
     const [viewOption, setViewOption] = useState('all-time')
+    const [heading, setHeading] = useState('')
     const navigate = useNavigate();
 
     // Get budget details from firestore
@@ -50,10 +51,34 @@ function Budget() {
                 Rent: [],
                 Services: [],
             }
+            let headingData = ""
             // Show budget for all time
             if (viewOption === "all-time") {
                 incomeData = budgetData.income;
                 expenseData = budgetData.expense;
+                let total = 0;
+                for (const key in budgetData.income) {
+                    for (let i = 0; i < budgetData.income[key].length; i++) {
+                        // console.log(budgetData.income[key][i].amount)
+                        if (budgetData.income[key][i].amount) {
+                            total = total + budgetData.income[key][i].amount;
+                        }
+                    }
+                }
+
+                for (const key in budgetData.expense) {
+                    for(let i = 0; i < budgetData.expense[key].length; i++) {
+                        if (budgetData.expense[key][i].amount) {
+                            total = total - budgetData.expense[key][i].amount;
+                        }
+                    }
+                }
+
+                if (total < 0) {
+                    headingData = `You've spent $${Math.abs(total)} overall`
+                } else {
+                    headingData = `You've earned $${total} overall`
+                }
 
             // Show budget for today
             } else if (viewOption === "today") {
@@ -63,21 +88,33 @@ function Budget() {
                 let year = today.getFullYear();
                 let begin_today = new Date(year, month, date, 0, 0, 0, 0).getTime();
                 let end_today = begin_today + 60*60*24*1000;
+                let total = 0;
                 for (const key in budgetData.income) {
-                    budgetData.income[key].forEach(item => {
+                    for(let i = 0; i<budgetData.income[key].length; i++) {
+                        let item = budgetData.income[key][i];
                         if (item.created_at > begin_today && item.created_at < end_today) {
                             incomeData[key].push(item);
+                            total = total + item.amount;
                         }
-                    })
+                    }
                 }
 
                 for (const key in budgetData.expense) {
-                    budgetData.expense[key].forEach(item => {
+                    for(let i = 0; i<budgetData.expense[key].length; i++) {
+                        let item = budgetData.expense[key][i];
                         if (item.created_at > begin_today && item.created_at < end_today) {
                             expenseData[key].push(item);
+                            total = total - item.amount;
                         }
-                    })
+                    }
                 }
+
+                if (total < 0) {
+                    headingData = `You've spent $${Math.abs(total)} today`
+                } else {
+                    headingData = `You've earned $${total} today`
+                }
+
             } else if (viewOption === "this-week") {
                 let today = new Date();
                 let date = today.getDate();
@@ -87,20 +124,31 @@ function Budget() {
                 let begin_today = new Date(year, month, date, 0, 0, 0, 0).getTime();
                 let begin_week = begin_today - day*60*60*24*1000;
                 let end_week = begin_week + 7*60*60*24*1000;
+                let total = 0;
                 for (const key in budgetData.income) {
-                    budgetData.income[key].forEach(item => {
+                    for(let i = 0; i<budgetData.income[key].length; i++) {
+                        let item = budgetData.income[key][i];
                         if (item.created_at > begin_week && item.created_at < end_week) {
                             incomeData[key].push(item);
+                            total = total + item.amount;
                         }
-                    })
+                    }
                 }
 
                 for (const key in budgetData.expense) {
-                    budgetData.expense[key].forEach(item => {
+                    for(let i = 0; i<budgetData.expense[key].length; i++) {
+                        let item = budgetData.expense[key][i];
                         if (item.created_at > begin_week && item.created_at < end_week) {
                             expenseData[key].push(item);
+                            total = total - item.amount;
                         }
-                    })
+                    }
+                }
+
+                if (total < 0) {
+                    headingData = `You've spent $${Math.abs(total)} this week`
+                } else {
+                    headingData = `You've earned $${total} this week`
                 }
             } else if (viewOption === "this-month") {
                 let today = new Date();
@@ -109,45 +157,68 @@ function Budget() {
                 let day_num = new Date(year, month, 0).getDate();
                 let begin_month = new Date(year, month, 1, 0, 0, 0, 0).getTime();
                 let end_month = begin_month + day_num*60*60*24*1000;
+                let total = 0;
                 for (const key in budgetData.income) {
-                    budgetData.income[key].forEach(item => {
+                    for(let i = 0; i<budgetData.income[key].length; i++) {
+                        let item = budgetData.income[key][i];
                         if (item.created_at > begin_month && item.created_at < end_month) {
                             incomeData[key].push(item);
+                            total = total + item.amount;
                         }
-                    })
+                    }
                 }
 
                 for (const key in budgetData.expense) {
-                    budgetData.expense[key].forEach(item => {
+                    for(let i = 0; i<budgetData.expense[key].length; i++) {
+                        let item = budgetData.expense[key][i];
                         if (item.created_at > begin_month && item.created_at < end_month) {
                             expenseData[key].push(item);
+                            total = total - item.amount;
                         }
-                    })
+                    }
+                }
+
+                if (total < 0) {
+                    headingData = `You've spent $${Math.abs(total)} this month`
+                } else {
+                    headingData = `You've earned $${total} this month`
                 }
             } else if (viewOption === "this-year") {
                 let today = new Date();
                 let year = today.getFullYear();
                 let begin_year = new Date(year, 0, 1, 0, 0, 0, 0).getTime();
                 let end_year = new Date(year+1, 0, 1, 0, 0, 0, 0).getTime();
+                let total = 0;
                 for (const key in budgetData.income) {
-                    budgetData.income[key].forEach(item => {
+                    for(let i = 0; i<budgetData.income[key].length; i++) {
+                        let item = budgetData.income[key][i];
                         if (item.created_at > begin_year && item.created_at < end_year) {
                             incomeData[key].push(item);
+                            total = total + item.amount;
                         }
-                    })
+                    }
                 }
 
                 for (const key in budgetData.expense) {
-                    budgetData.expense[key].forEach(item => {
+                    for(let i = 0; i<budgetData.expense[key].length; i++) {
+                        let item = budgetData.expense[key][i];
                         if (item.created_at > begin_year && item.created_at < end_year) {
                             expenseData[key].push(item);
+                            total = total - item.amount;
                         }
-                    })
+                    }
+                }
+
+                if (total < 0) {
+                    headingData = `You've spent $${Math.abs(total)} this year`
+                } else {
+                    headingData = `You've earned $${total} this year`
                 }
             }
             setIncome(incomeData)
             setExpense(expenseData)
             setTotalMoney(budgetData.totalMoney)
+            setHeading(headingData);
         }
     }
 
@@ -207,7 +278,7 @@ function Budget() {
     if (income && expense) {
         return (
             <div className='pt-12 md:pt-16 lg:pl-40 lg:pt-4 text-center pb-12'>
-                <h1 className='mt-12 text-3xl xl:text-4xl font-bold'>You have ${totalMoney} in your account</h1>
+                <h1 className='mt-12 text-3xl xl:text-4xl font-bold'>{heading}</h1>
                 <div className='w-full mt-8 md:mt-12 flex flex-row'>
                     <select className='ml-12 p-2 font-lg border border-black rounded-sm' name='view-option' defaultValue='view-option' placeholder='View option' onChange={changeViewOption}>
                         <option value='view-option' disabled>View Option</option>
