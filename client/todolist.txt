@@ -1,6 +1,7 @@
 1. Dashboard
 2. Todolist/ Scheduler
-3. Budget Manager
-4. Authentication system
 Current:
-4.1 Add interface for income and expenses
+2.2. add a view option to Scheduler
+2.3 add frequency when add item
+2.4 delete all btn for items
+

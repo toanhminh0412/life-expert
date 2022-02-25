@@ -3,7 +3,11 @@ module.exports = {
     "./src/**/*.{js,jsx,ts,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      margin: {
+        '16.66%': '16.66%'
+      }
+    },
   },
   plugins: [],
 }

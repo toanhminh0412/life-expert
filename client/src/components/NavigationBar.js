@@ -33,7 +33,7 @@ function NavigationBar() {
 
 function HorizontalNav({logOut}) {
     return (
-        <div className='fixed bg-slate-800 h-10 md:h-12 w-full lg:hidden flex flex-row'>
+        <div className='fixed bg-slate-800 h-10 md:h-12 w-full lg:hidden flex flex-row z-30'>
             <div className='ml-4 hidden md:flex flex-col justify-center'>
                 <a href='/'><h1 className='text-yellow-400 text-xl md:text-2xl'>LifeExpert</h1></a>
             </div>
@@ -55,7 +55,7 @@ function HorizontalNav({logOut}) {
 
 function VerticalNav({logOut}) {
     return (
-        <div className='hidden lg:flex fixed flex-col h-screen w-fit bg-slate-800'>
+        <div className='hidden lg:flex fixed flex-col h-screen w-fit bg-slate-800 z-30'>
                 <div className='border-b border-slate-600 pb-4'>
                     <a href='/'><h1 className='text-yellow-400 text-2xl mx-3 font-bold mt-2'>LifeExpert</h1></a>
                 </div>
