@@ -57,9 +57,16 @@ function Scheduler() {
         if (scheduleSnap.exists()) {
             fullSchedule = scheduleSnap.data().schedule
         }
+        let newFullSchedule = [];
+        let now = new Date();
+        for (let i = 0; i < fullSchedule.length; i++) {
+            if (fullSchedule[i].date.seconds*1000 >= now.getTime()) {
+                newFullSchedule.push(fullSchedule[i]);
+            }
+        }
+        fullSchedule = newFullSchedule;
         if (fullSchedule.length === 0 || viewOption === 'all-time') {
             setSchedule(fullSchedule);
-            return;
         } else if (viewOption === 'today') {
             let extractSchedule = []
             let today = new Date();
@@ -75,7 +82,6 @@ function Scheduler() {
                 }
             }
             setSchedule(extractSchedule);
-            return;
         } else if (viewOption === "this-week") {
             let extractSchedule = []
             let today = new Date();
@@ -93,7 +99,6 @@ function Scheduler() {
                 }
             }
             setSchedule(extractSchedule);
-            return;
         } else if (viewOption === "this-month") {
             let extractSchedule = []
             let today = new Date();
@@ -109,7 +114,6 @@ function Scheduler() {
                 }
             }
             setSchedule(extractSchedule);
-            return;
         } else if (viewOption === "this-year") {
             let extractSchedule = []
             let today = new Date();
@@ -123,8 +127,8 @@ function Scheduler() {
                 }
             }
             setSchedule(extractSchedule);
-            return;
         }
+        await setDoc(scheduleRef, {schedule: fullSchedule});
     }
     
     useEffect(() => {

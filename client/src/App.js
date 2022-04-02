@@ -6,6 +6,8 @@ import Dashboard from './components/Dashboard';
 import Budget from './components/Budget';
 import BudgetAdd from './components/BudgetAdd';
 import Scheduler from './components/Scheduler';
+import Note from './components/Note';
+import NoteWrite from './components/NoteWrite';
 import NavigationBar from './components/NavigationBar';
 import Login from './components/Login';
 import Signup from './components/Signup';
@@ -42,6 +44,8 @@ function App() {
           <Route exact path='/budget-manager' element={<Budget/>}/>
           <Route path='/budget-manager/add' element={<BudgetAdd/>}/>
           <Route exact path='/scheduler' element={<Scheduler/>}/>
+          <Route exact path='/note' element={<Note/>}/>
+          <Route path='/note/:noteId' element={<NoteWrite/>}></Route>
           <Route path='/login' element={<Login/>}/>
           <Route path='signup' element={<Signup/>}/>
         </Routes>

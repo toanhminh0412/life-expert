@@ -1,7 +1,1 @@
-1. Dashboard
-2. Todolist/ Scheduler
-Current:
-2.2. add a view option to Scheduler
-2.3 add frequency when add item
-2.4 delete all btn for items
-
+Add animation promt lightbox when delete a note, then add functionality of deleting a note

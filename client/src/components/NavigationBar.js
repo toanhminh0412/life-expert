@@ -1,7 +1,8 @@
 import React from 'react';
 import {FaMoneyBillAlt} from 'react-icons/fa';
 import {BsFillCalendar3WeekFill} from 'react-icons/bs';
-import {FiLogOut} from 'react-icons/fi'
+import {GrNote} from 'react-icons/gr';
+import {FiLogOut} from 'react-icons/fi';
 import {auth, db} from '../App';
 import { signOut } from "firebase/auth";
 import { doc, deleteDoc} from 'firebase/firestore';
@@ -38,10 +39,13 @@ function HorizontalNav({logOut}) {
                 <a href='/'><h1 className='text-yellow-400 text-xl md:text-2xl'>LifeExpert</h1></a>
             </div>
             <div className='ml-4 md:ml-12 h-full flex flex-col justify-center'>
-                <a href='/budget-manager'><FaMoneyBillAlt className='text-slate-400 hover:text-white text-2xl md:text-3xl'/></a>
+                <a href='/budget-manager'><FaMoneyBillAlt className='text-slate-400 hover:text-white text-2xl md:text-3xl duration-200'/></a>
             </div>
             <div className='ml-8 md:ml-12 h-full flex flex-col justify-center'>
-                <a href='/scheduler'><BsFillCalendar3WeekFill className='text-slate-400 hover:text-white text-xl md:text-2xl'/></a>
+                <a href='/scheduler'><BsFillCalendar3WeekFill className='text-slate-400 hover:text-white text-xl md:text-2xl duration-200'/></a>
+            </div>
+            <div className='ml-8 md:ml-12 h-full flex flex-col justify-center'>
+                <a href='/note'><GrNote className='text-slate-400 hover:text-white text-xl md:text-2xl bg-slate-400 hover:bg-white duration-200'/></a>
             </div>
             
             {window.localStorage.getItem('session')!==""?(
@@ -67,6 +71,12 @@ function VerticalNav({logOut}) {
                 <a href='/scheduler'>
                     <div className='mt-4 hover:bg-slate-700 h-12 w-full flex flex-col justify-center'>
                         <BsFillCalendar3WeekFill className='text-white text-3xl mx-auto my-auto'/>
+                    </div>
+                </a>
+
+                <a href='/note'>
+                    <div className='mt-4 hover:bg-slate-700 h-12 w-full flex flex-col justify-center'>
+                        <GrNote className='text-white text-3xl mx-auto my-auto bg-white'/>
                     </div>
                 </a>
 
